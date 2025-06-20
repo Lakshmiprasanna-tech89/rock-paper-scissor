@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rock Paper Scissors Game</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      color: #fff;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2.5rem;
+      text-shadow: 2px 2px 5px #000;
+    }
+
+    .choices {
+      display: flex;
+      gap: 20px;
+    }
+
+    .choice {
+      background: #ffffff10;
+      padding: 20px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s;
+      border: 2px solid white;
+      font-size: 1.5rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .choice:hover {
+      background: #ffffff30;
+      transform: scale(1.1);
+    }
+
+    .result {
+      margin-top: 30px;
+      font-size: 1.8rem;
+      text-align: center;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    .scoreboard {
+      margin-top: 15px;
+      font-size: 1.2rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Rock 🪨 Paper 📄 Scissors ✂️</h1>
+
+  <div class="choices">
+    <div class="choice" data-choice="rock">🪨</div>
+    <div class="choice" data-choice="paper">📄</div>
+    <div class="choice" data-choice="scissors">✂️</div>
+  </div>
+
+  <div class="result" id="resultText">Make your move!</div>
+  <div class="scoreboard" id="scoreboard">You: 0 | Computer: 0</div>
+
+  <script>
+    const choices = document.querySelectorAll('.choice');
+    const resultText = document.getElementById('resultText');
+    const scoreboard = document.getElementById('scoreboard');
+    let userScore = 0;
+    let computerScore = 0;
+
+    const getComputerChoice = () => {
+      const options = ['rock', 'paper', 'scissors'];
+      return options[Math.floor(Math.random() * 3)];
+    };
+
+    const getResult = (user, computer) => {
+      if (user === computer) return "It's a draw! 🤝";
+      if (
+        (user === 'rock' && computer === 'scissors') ||
+        (user === 'paper' && computer === 'rock') ||
+        (user === 'scissors' && computer === 'paper')
+      ) {
+        userScore++;
+        return `You Win! 🎉 ${user} beats ${computer}`;
+      } else {
+        computerScore++;
+        return `You Lose! 😢 ${computer} beats ${user}`;
+      }
+    };
+
+    choices.forEach(choice => {
+      choice.addEventListener('click', () => {
+        const userChoice = choice.dataset.choice;
+        const computerChoice = getComputerChoice();
+        const result = getResult(userChoice, computerChoice);
+
+        resultText.innerHTML = result;
+        scoreboard.innerHTML = `You: ${userScore} | Computer: ${computerScore}`;
+      });
+    });
+  </script>
+
+</body>
+</html>
